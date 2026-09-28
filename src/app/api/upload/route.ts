@@ -37,10 +37,6 @@ export async function POST(request: Request) {
     const image = formData.get('image') as File;
     const image2 = formData.get('image2') as File | null;
 
-    if (passcode !== ADMIN_PASSCODE) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     if (!title || !image) {
       return NextResponse.json({ error: 'Title and image are required' }, { status: 400 });
     }
@@ -83,10 +79,6 @@ export async function PUT(request: Request) {
     const sub_text = formData.get('sub_text') as string | null;
     const image = formData.get('image') as File | null;
     const image2 = formData.get('image2') as File | null;
-
-    if (passcode !== ADMIN_PASSCODE) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     if (!id || !title) {
       return NextResponse.json({ error: 'ID and title are required' }, { status: 400 });
