@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
-// A simple hardcoded passcode for the admin panel
-const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'firstfrost2026';
+
 
 const uploadImage = async (file: File) => {
   const fileExt = file.name.split('.').pop();
@@ -31,15 +30,13 @@ const uploadImage = async (file: File) => {
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
-    const passcode = formData.get('passcode');
+
     const title = formData.get('title') as string;
     const sub_text = formData.get('sub_text') as string | null;
     const image = formData.get('image') as File;
     const image2 = formData.get('image2') as File | null;
 
-    if (passcode !== ADMIN_PASSCODE) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+
 
     if (!title || !image) {
       return NextResponse.json({ error: 'Title and image are required' }, { status: 400 });
@@ -77,16 +74,14 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   try {
     const formData = await request.formData();
-    const passcode = formData.get('passcode');
+
     const id = formData.get('id') as string;
     const title = formData.get('title') as string;
     const sub_text = formData.get('sub_text') as string | null;
     const image = formData.get('image') as File | null;
     const image2 = formData.get('image2') as File | null;
 
-    if (passcode !== ADMIN_PASSCODE) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+
 
     if (!id || !title) {
       return NextResponse.json({ error: 'ID and title are required' }, { status: 400 });

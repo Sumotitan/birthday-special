@@ -10,8 +10,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const revealAll = searchParams.get('revealAll') === 'true';
-    const passcode = searchParams.get('passcode');
-    const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'firstfrost2026';
+
 
     const { data: surprises, error } = await supabase
       .from('surprises')
@@ -24,9 +23,6 @@ export async function GET(request: Request) {
     }
 
     if (revealAll) {
-      if (passcode !== ADMIN_PASSCODE) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-      }
       return NextResponse.json({ surprises, totalRevealed: surprises.length });
     }
 
