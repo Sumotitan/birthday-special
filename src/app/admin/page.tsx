@@ -14,7 +14,7 @@ type Surprise = {
 
 export default function AdminPage() {
   const [passcode, setPasscode] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [title, setTitle] = useState('');
   const [subText, setSubText] = useState('');
   const [image, setImage] = useState<File | null>(null);
