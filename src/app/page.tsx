@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Countdown from "@/components/Countdown";
 import Link from "next/link";
@@ -39,6 +39,17 @@ export default function Home() {
   const [progress, setProgress] = useState({ revealed: 0, total: 32, daysPassed: 0, totalDays: 29 });
   const [showDay7Popup, setShowDay7Popup] = useState(false);
   const [tempRevealData, setTempRevealData] = useState<any>(null);
+  const [showBirthdayPopup, setShowBirthdayPopup] = useState(false);
+
+  useEffect(() => {
+    const today = new Date();
+    const searchParams = new URLSearchParams(window.location.search);
+    const isTest = searchParams.get('test_bday') === 'true';
+
+    if ((today.getMonth() === 9 && today.getDate() === 1) || isTest) {
+      setShowBirthdayPopup(true);
+    }
+  }, []);
 
   const proceedToReveal = (data: any) => {
     window.scrollTo(0, 0);
@@ -181,6 +192,46 @@ export default function Home() {
                     className="px-8 py-3 rounded-full bg-rose-500/20 border border-rose-500/50 text-rose-200 hover:bg-rose-500/40 transition-colors font-serif shadow-[0_0_15px_rgba(251,113,133,0.2)]"
                   >
                     Ok
+                  </button>
+                </div>
+            </div>
+          </motion.div>
+        )}
+
+        {showBirthdayPopup && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="fixed inset-0 z-[110] flex items-center justify-center bg-slate-950/90 backdrop-blur-md p-4"
+          >
+            <div className="bg-slate-900 border border-rose-500/50 p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-w-2xl w-full text-center relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-rose-400/10 via-transparent to-transparent pointer-events-none" />
+                <h2 className="text-3xl md:text-4xl font-serif text-amber-100 tracking-wide mb-8 drop-shadow-md">
+                  Happy 22nd.
+                </h2>
+                
+                <div className="text-sm md:text-base text-rose-100/90 font-serif leading-relaxed space-y-6 mb-10">
+                  <p>
+                    In the birthday episode of First Frost, a quiet reporter from Nanwu is celebrated for being exactly who she is. She makes a wish and keeps it to herself, because some wishes are too soft to say out loud.
+                  </p>
+                  <p>
+                    You remind me of her: brave without announcing it, kind without being asked, and far more special than you let on. May this year celebrate you the way her birthday did, with warmth, a wish that comes true, and a first frost that marks the start of something beautiful.
+                  </p>
+                  <p className="text-rose-300/80 text-sm pt-4 italic">
+                    P.S. I hope you enjoyed this birthday countdown timer.
+                  </p>
+                </div>
+                
+                <div className="flex justify-center mt-8">
+                  <button 
+                    onClick={() => setShowBirthdayPopup(false)}
+                    className="flex flex-col items-center justify-center gap-2 group transition-transform hover:scale-110 focus:outline-none"
+                    aria-label="Close"
+                  >
+                    <div className="p-4 rounded-full bg-rose-500/20 border border-rose-500/50 text-rose-300 group-hover:bg-rose-500/40 group-hover:text-rose-100 transition-all shadow-[0_0_15px_rgba(251,113,133,0.3)] group-hover:shadow-[0_0_25px_rgba(251,113,133,0.6)]">
+                      <Heart size={28} className="fill-current" />
+                    </div>
                   </button>
                 </div>
             </div>
